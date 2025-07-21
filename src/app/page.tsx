@@ -1,7 +1,5 @@
 import "./page.css";
 import styles from "./page.module.css";
-
-import Link from "next/link";
 import Bar from "@/components/Bar/Bar";
 import MainSidebar from "@/components/MainSidebar/MainSidebar";
 import CenterBlock from "@/components/CenterBlock/CenterBlock";
