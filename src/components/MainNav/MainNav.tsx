@@ -23,7 +23,7 @@ export default function MainNav() {
         <ul className={styles.menu__list}>
           <li className={styles.menu__item}>
             <Link href="#" className={styles.menu__link}>
-              Главное
+              Главное 
             </Link>
           </li>
           <li className={styles.menu__item}>
