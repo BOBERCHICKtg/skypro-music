@@ -1,0 +1,40 @@
+import { TrackType } from "@/sharedTypes/sharedTypes";
+
+export const data: TrackType[] = [
+  {
+    _id: 8,
+    name: "Chase",
+    author: "Alexander Nakarada",
+    release_date: " 2005-06-11",
+    genre: ["Классическая музыка"],
+    duration_in_seconds: 205,
+    album: "Chase",
+    logo: null,
+    track_file: "",
+    stared_user: [],
+  },
+  {
+    _id: 9,
+    name: "Open Sea epic",
+    author: "Kristina Aleckseeva",
+    release_date: " 2005-06-11",
+    genre: ["Классическая музыка"],
+    duration_in_seconds: 205,
+    album: "Chase",
+    logo: null,
+    track_file: "",
+    stared_user: [],
+  },
+  {
+    _id: 10,
+    name: "Sneaky Snitch",
+    author: "Alexander Nakarada",
+    release_date: " 2005-06-11",
+    genre: ["Классическая музыка"],
+    duration_in_seconds: 205,
+    album: "Chase",
+    logo: null,
+    track_file: "",
+    stared_user: [],
+  },
+];
