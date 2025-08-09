@@ -253,3 +253,27 @@
     text-align: right;
     color: #696969;
 }
+
+.filter__list {
+    color: white;
+    display: flex;
+    gap: 28px;
+    height: max-content;
+    max-height: 237px;
+    overflow-y: auto;
+    flex-direction: column;
+    width: max-content;
+    max-width: 248px;
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: rgba(75, 73, 73, 1);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: white;
+    }
+}
