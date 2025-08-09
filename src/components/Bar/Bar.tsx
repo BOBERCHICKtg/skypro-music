@@ -1,10 +1,17 @@
+"use client";
+
 import Link from "next/link";
 import styles from "./bar.module.css";
 import classNames from "classnames";
+import { useAppSelector } from "../store/store";
 
 export default function Bar() {
+  const currentTrack = useAppSelector((state) => state.tracks);
+  console.log(currentTrack);
+
   return (
     <div className={styles.bar}>
+      <audio controls></audio>
       <div className={styles.bar__content}>
         <div className={styles.bar__playerProgress}></div>
         <div className={styles.bar__playerBlock}>
@@ -96,7 +103,10 @@ export default function Bar() {
               </div>
               <div className={classNames(styles.volume__progress, styles.btn)}>
                 <input
-                  className={classNames(styles.volume__progressLine, styles.btn)}
+                  className={classNames(
+                    styles.volume__progressLine,
+                    styles.btn
+                  )}
                   type="range"
                   name="range"
                 />

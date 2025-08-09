@@ -1,12 +1,19 @@
+"use client";
+
 import classnames from "classnames";
-import Link from "next/link";
 import styles from "./centerblock.module.css";
 import Search from "../Search/Search";
 import { data } from "@/data";
-import { formatTime, getUniqueValuesByKey } from "@/utils/helper";
+import { getUniqueValuesByKey } from "../utils/helper";
+import Track from "../Track/Track";
+import { useState } from "react";
 
 export default function CenterBlock() {
-  console.log(getUniqueValuesByKey(data, "author"));
+  const [filter, setFilter] = useState("");
+
+  if (!data || data.length === 0) {
+    return <div>Нет доступных треков</div>;
+  }
 
   return (
     <div className={styles.centerblock}>
@@ -14,9 +21,24 @@ export default function CenterBlock() {
       <h2 className={styles.centerblock__h2}>Треки</h2>
       <div className={styles.centerblock__filter}>
         <div className={styles.filter__title}>Искать по:</div>
-        <div className={styles.filter__button}>исполнителю</div>
-        <div className={styles.filter__button}>году выпуска</div>
-        <div className={styles.filter__button}>жанру</div>
+        <div
+          className={styles.filter__button}
+          onClick={() => setFilter("artist")}
+        >
+          исполнителю
+        </div>
+        <div
+          className={styles.filter__button}
+          onClick={() => setFilter("year")}
+        >
+          году выпуска
+        </div>
+        <div
+          className={styles.filter__button}
+          onClick={() => setFilter("genre")}
+        >
+          жанру
+        </div>
       </div>
       <div className={styles.centerblock__content}>
         <div className={styles.content__title}>
@@ -37,41 +59,7 @@ export default function CenterBlock() {
         </div>
         <div className={styles.content__playlist}>
           {data.map((track) => (
-            <div key={track._id} className={styles.playlist__item}>
-              <div className={styles.playlist__track}>
-                <div className={styles.track__title}>
-                  <div className={styles.track__titleImage}>
-                    <svg className={styles.track__titleSvg}>
-                      <use xlinkHref="/img/icon/sprite.svg#icon-note"></use>
-                    </svg>
-                  </div>
-                  <div className={"track__title-text"}>
-                    <Link className={styles.track__titleLink} href="">
-                      {track.name}{" "}
-                      <span className={styles.track__titleSpan}></span>
-                    </Link>
-                  </div>
-                </div>
-                <div className={styles.track__author}>
-                  <Link className={styles.track__authorLink} href="">
-                    {track.author}
-                  </Link>
-                </div>
-                <div className={styles.track__album}>
-                  <Link className={styles.track__albumLink} href="">
-                    {track.album}
-                  </Link>
-                </div>
-                <div className={"track__time"}>
-                  <svg className={styles.track__timeSvg}>
-                    <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
-                  </svg>
-                  <span className={styles.track__timeText}>
-                    {formatTime(track.duration_in_seconds)}
-                  </span>
-                </div>
-              </div>
-            </div>
+            <Track key={track._id} track={track} />
           ))}
         </div>
       </div>
