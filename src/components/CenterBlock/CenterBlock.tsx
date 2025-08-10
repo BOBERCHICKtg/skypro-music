@@ -12,21 +12,43 @@ export default function CenterBlock() {
   const [showArtistFilter, setShowArtistFilter] = useState(false);
   const artists = getUniqueValuesByKey(data, "author");
 
-  const toggleArtistFilter = () => {
+  const toggleArtistFilter = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setShowArtistFilter(!showArtistFilter);
   };
 
+  const closeFilter = () => {
+    setShowArtistFilter(false);
+  };
+
   return (
-    <div className={styles.centerblock}>
+    <div className={styles.centerblock} onClick={closeFilter}>
       <Search title="" />
       <h2 className={styles.centerblock__h2}>Треки</h2>
       <div className={styles.centerblock__filter}>
         <div className={styles.filter__title}>Искать по:</div>
-        <div className={styles.filter__button} onClick={toggleArtistFilter}>
-          исполнителю
-        </div>
-        <div className={styles.filter__list}>
-          <p>{getUniqueValuesByKey(data, "author")}</p>
+        <div className={styles.filter__buttonWrapper}>
+          <div
+            className={classnames(styles.filter__button, {
+              [styles.active]: showArtistFilter,
+            })}
+            onClick={toggleArtistFilter}
+          >
+            исполнителю
+            {showArtistFilter && (
+              <div className={styles.filter__list}>
+                {artists.map((artist) => (
+                  <div
+                    key={artist}
+                    className={styles.filter__item}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {artist}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
         <div className={styles.filter__button}>году выпуска</div>
         <div className={styles.filter__button}>жанру</div>
