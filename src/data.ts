@@ -10,7 +10,8 @@ export const data: TrackType[] = [
     duration_in_seconds: 205,
     album: "Chase",
     logo: null,
-    track_file: "",
+    track_file:
+      "https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Alexander_Nakarada_-_Chase.mp3",
     stared_user: [],
   },
   {
@@ -22,7 +23,8 @@ export const data: TrackType[] = [
     duration_in_seconds: 205,
     album: "Chase",
     logo: null,
-    track_file: "",
+    track_file:
+      "https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Alexander_Nakarada_-_Chase.mp3",
     stared_user: [],
   },
   {
@@ -34,7 +36,8 @@ export const data: TrackType[] = [
     duration_in_seconds: 205,
     album: "",
     logo: null,
-    track_file: "",
+    track_file:
+      "https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Alexander_Nakarada_-_Chase.mp3",
     stared_user: [],
   },
 ];

@@ -12,6 +12,8 @@ export default function Bar() {
   const isPlaying = useAppSelector((state) => state.tracks.isPlay);
   const dispatch = useAppDispatch();
 
+  const [isLoop, setIsLoop] = useState(false);
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isLocalPlaying, setIsLocalPlaying] = useState(false);
 
@@ -30,6 +32,10 @@ export default function Bar() {
     }
   };
 
+  const onToggleLoop = () => {
+    setIsLoop(!isLoop);
+  };
+
   const handleNotImplemented = () => {
     alert("Еще не реализовано");
   };
@@ -44,6 +50,8 @@ export default function Bar() {
             setIsLocalPlaying(false);
             dispatch(setIsPlay(false));
           }}
+          loop={true}
+          onTimeUpdate={() => console.log(111)}
         />
       )}
 
@@ -87,7 +95,7 @@ export default function Bar() {
 
               <div
                 className={classNames(styles.player__btnRepeat, styles.btnIcon)}
-                onClick={handleNotImplemented}
+                onClick={onToggleLoop}
               >
                 <svg className={styles.player__btnRepeatSvg}>
                   <use xlinkHref="/img/icon/sprite.svg#icon-repeat"></use>
