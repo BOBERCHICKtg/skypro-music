@@ -3,47 +3,103 @@
 import Link from "next/link";
 import styles from "./bar.module.css";
 import classNames from "classnames";
-import { useAppSelector } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { useRef, useState } from "react";
+import { setIsPlay } from "../store/features/trackSlice";
 
 export default function Bar() {
-  const currentTrack = useAppSelector((state) => state.tracks);
-  console.log(currentTrack);
+  const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
+  const isPlaying = useAppSelector((state) => state.tracks.isPlay);
+  const dispatch = useAppDispatch();
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isLocalPlaying, setIsLocalPlaying] = useState(false);
+
+  if (!currentTrack) return null;
+
+  const togglePlayPause = () => {
+    if (audioRef.current) {
+      if (isLocalPlaying) {
+        audioRef.current.pause();
+        dispatch(setIsPlay(false));
+      } else {
+        audioRef.current.play();
+        dispatch(setIsPlay(true));
+      }
+      setIsLocalPlaying(!isLocalPlaying);
+    }
+  };
+
+  const handleNotImplemented = () => {
+    alert("Еще не реализовано");
+  };
 
   return (
     <div className={styles.bar}>
-      <audio controls></audio>
+      {currentTrack && currentTrack.track_file && (
+        <audio
+          ref={audioRef}
+          src={currentTrack.track_file}
+          onEnded={() => {
+            setIsLocalPlaying(false);
+            dispatch(setIsPlay(false));
+          }}
+        />
+      )}
+
       <div className={styles.bar__content}>
         <div className={styles.bar__playerProgress}></div>
         <div className={styles.bar__playerBlock}>
           <div className={styles.bar__player}>
             <div className={styles.player__controls}>
-              <div className={styles.player__btnPrev}>
+              <div
+                className={styles.player__btnPrev}
+                onClick={handleNotImplemented}
+              >
                 <svg className={styles.player__btnPrevSvg}>
                   <use xlinkHref="/img/icon/sprite.svg#icon-prev"></use>
                 </svg>
               </div>
-              <div className={classNames(styles.player__btnPlay, styles.btn)}>
+
+              <div
+                className={classNames(styles.player__btnPlay, styles.btn)}
+                onClick={togglePlayPause}
+              >
                 <svg className={styles.player__btnPlaySvg}>
-                  <use xlinkHref="/img/icon/sprite.svg#icon-play"></use>
+                  <use
+                    xlinkHref={
+                      isLocalPlaying
+                        ? "/img/icon/sprite.svg#icon-pause"
+                        : "/img/icon/sprite.svg#icon-play"
+                    }
+                  />
                 </svg>
               </div>
-              <div className={styles.player__btnNext}>
+
+              <div
+                className={styles.player__btnNext}
+                onClick={handleNotImplemented}
+              >
                 <svg className={styles.player__btnNextSvg}>
                   <use xlinkHref="/img/icon/sprite.svg#icon-next"></use>
                 </svg>
               </div>
+
               <div
                 className={classNames(styles.player__btnRepeat, styles.btnIcon)}
+                onClick={handleNotImplemented}
               >
                 <svg className={styles.player__btnRepeatSvg}>
                   <use xlinkHref="/img/icon/sprite.svg#icon-repeat"></use>
                 </svg>
               </div>
+
               <div
                 className={classNames(
                   styles.player__btnShuffle,
                   styles.btnIcon
                 )}
+                onClick={handleNotImplemented}
               >
                 <svg className={styles.player__btnShuffleSvg}>
                   <use xlinkHref="/img/icon/sprite.svg#icon-shuffle"></use>
@@ -60,32 +116,28 @@ export default function Bar() {
                 </div>
                 <div className={styles.trackPlay__author}>
                   <Link className={styles.trackPlay__authorLink} href="">
-                    Ты та...
+                    {currentTrack.author}
                   </Link>
                 </div>
                 <div className={styles.trackPlay__album}>
                   <Link className={styles.trackPlay__albumLink} href="">
-                    Баста
+                    {currentTrack.album}
                   </Link>
                 </div>
               </div>
 
-              <div className={styles.trackPlay__dislike}>
+              <div className={styles.trackPlay__likeDislike}>
                 <div
-                  className={classNames(
-                    styles.player__btnShuffle,
-                    styles.btnIcon
-                  )}
+                  className={styles.trackPlay__like}
+                  onClick={handleNotImplemented}
                 >
                   <svg className={styles.trackPlay__likeSvg}>
                     <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
                   </svg>
                 </div>
                 <div
-                  className={classNames(
-                    styles.trackPlay__dislike,
-                    styles.btnIcon
-                  )}
+                  className={styles.trackPlay__dislike}
+                  onClick={handleNotImplemented}
                 >
                   <svg className={styles.trackPlay__dislikeSvg}>
                     <use xlinkHref="/img/icon/sprite.svg#icon-dislike"></use>
@@ -94,6 +146,7 @@ export default function Bar() {
               </div>
             </div>
           </div>
+
           <div className={styles.bar__volumeBlock}>
             <div className={styles.volume__content}>
               <div className={styles.volume__image}>
@@ -109,6 +162,7 @@ export default function Bar() {
                   )}
                   type="range"
                   name="range"
+                  onClick={handleNotImplemented}
                 />
               </div>
             </div>

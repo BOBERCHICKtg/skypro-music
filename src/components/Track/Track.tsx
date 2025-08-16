@@ -6,12 +6,15 @@ import { TrackType } from "../sharedTypes/types";
 import { formatTime } from "../utils/helper";
 import { setCurrentTrack } from "../store/features/trackSlice";
 import Link from "next/link";
+import classNames from "classnames";
 
 type trackTypeProp = {
   track: TrackType;
+  isCurrent: boolean;
+  isPlaying: boolean;
 };
 
-export default function Track({ track }: trackTypeProp) {
+export default function Track({ track, isCurrent, isPlaying }: trackTypeProp) {
   const dispatch = useAppDispatch();
 
   const onClickTrack = () => {
@@ -19,15 +22,29 @@ export default function Track({ track }: trackTypeProp) {
   };
 
   return (
-    <div key={track._id} className={styles.playlist__item}>
+    <div
+      key={track._id}
+      className={styles.playlist__item}
+      onClick={onClickTrack}
+    >
       <div className={styles.playlist__track}>
         <div className={styles.track__title}>
           <div className={styles.track__titleImage}>
-            <svg className={styles.track__titleSvg}>
-              <use xlinkHref="/img/icon/sprite.svg#icon-note"></use>
-            </svg>
+            {isCurrent ? (
+              <div className={styles.track__statusIndicator}>
+                <div
+                  className={classNames(styles.track__statusDot, {
+                    [styles.pulsing]: isPlaying,
+                  })}
+                />
+              </div>
+            ) : (
+              <svg className={styles.track__titleSvg}>
+                <use xlinkHref="/img/icon/sprite.svg#icon-note"></use>
+              </svg>
+            )}
           </div>
-          <div className={"track__title-text"}>
+          <div className={styles.track__titleText}>
             <Link className={styles.track__titleLink} href="">
               {track.name} <span className={styles.track__titleSpan}></span>
             </Link>
@@ -43,7 +60,7 @@ export default function Track({ track }: trackTypeProp) {
             {track.album}
           </Link>
         </div>
-        <div className={"track__time"}>
+        <div className={styles.track__time}>
           <svg className={styles.track__timeSvg}>
             <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
           </svg>

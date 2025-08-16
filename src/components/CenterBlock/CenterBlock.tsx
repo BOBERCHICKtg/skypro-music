@@ -1,16 +1,19 @@
 "use client";
 
 import classnames from "classnames";
-import Link from "next/link";
 import styles from "./centerblock.module.css";
 import Search from "../Search/Search";
 import { data } from "@/data";
 import { formatTime, getUniqueValuesByKey } from "../utils/helper";
 import { useState } from "react";
+import Track from "../Track/Track";
+import { useAppSelector } from "../store/store";
 
 export default function CenterBlock() {
   const [showArtistFilter, setShowArtistFilter] = useState(false);
   const artists = getUniqueValuesByKey(data, "author");
+  const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
+  const isPlaying = useAppSelector((state) => state.tracks.isPlay);
 
   const toggleArtistFilter = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -72,41 +75,12 @@ export default function CenterBlock() {
         </div>
         <div className={styles.content__playlist}>
           {data.map((track) => (
-            <div key={track._id} className={styles.playlist__item}>
-              <div className={styles.playlist__track}>
-                <div className={styles.track__title}>
-                  <div className={styles.track__titleImage}>
-                    <svg className={styles.track__titleSvg}>
-                      <use xlinkHref="/img/icon/sprite.svg#icon-note"></use>
-                    </svg>
-                  </div>
-                  <div className={styles.track__titleText}>
-                    <Link className={styles.track__titleLink} href="">
-                      {track.name}
-                      <span className={styles.track__titleSpan}></span>
-                    </Link>
-                  </div>
-                </div>
-                <div className={styles.track__author}>
-                  <Link className={styles.track__authorLink} href="">
-                    {track.author}
-                  </Link>
-                </div>
-                <div className={styles.track__album}>
-                  <Link className={styles.track__albumLink} href="">
-                    {track.album}
-                  </Link>
-                </div>
-                <div className={styles.track__time}>
-                  <svg className={styles.track__timeSvg}>
-                    <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
-                  </svg>
-                  <span className={styles.track__timeText}>
-                    {formatTime(track.duration_in_seconds)}
-                  </span>
-                </div>
-              </div>
-            </div>
+            <Track
+              key={track._id}
+              track={track}
+              isCurrent={currentTrack?._id === track._id}
+              isPlaying={isPlaying && currentTrack?._id === track._id}
+            />
           ))}
         </div>
       </div>
