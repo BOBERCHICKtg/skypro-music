@@ -80,6 +80,7 @@ export default function CenterBlock() {
               track={track}
               isCurrent={currentTrack?._id === track._id}
               isPlaying={isPlaying && currentTrack?._id === track._id}
+              playlist={data}
             />
           ))}
         </div>

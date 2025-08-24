@@ -4,7 +4,10 @@ import { useAppDispatch } from "../store/store";
 import styles from "../CenterBlock/centerblock.module.css";
 import { TrackType } from "../sharedTypes/types";
 import { formatTime } from "../utils/helper";
-import { setCurrentTrack } from "../store/features/trackSlice";
+import {
+  setCurrentPlaylist,
+  setCurrentTrack,
+} from "../store/features/trackSlice";
 import Link from "next/link";
 import classNames from "classnames";
 
@@ -12,13 +15,20 @@ type trackTypeProp = {
   track: TrackType;
   isCurrent: boolean;
   isPlaying: boolean;
+  playlist: TrackType[];
 };
 
-export default function Track({ track, isCurrent, isPlaying }: trackTypeProp) {
+export default function Track({
+  track,
+  isCurrent,
+  isPlaying,
+  playlist,
+}: trackTypeProp) {
   const dispatch = useAppDispatch();
 
   const onClickTrack = () => {
     dispatch(setCurrentTrack(track));
+    dispatch(setCurrentPlaylist(playlist));
   };
 
   return (
